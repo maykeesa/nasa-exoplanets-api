@@ -3,14 +3,14 @@ package br.com.nasa.model.form;
 import lombok.Getter;
 
 @Getter
-public class GptForm {
+public class IAForm {
 
 	private String prompt;
 	
-	public GptForm() {
+	public IAForm() {
 	}
 	
-	public GptForm(String prompt) {
+	public IAForm(String prompt) {
 		this.prompt = prompt;
 	}
 	
