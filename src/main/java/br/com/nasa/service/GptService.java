@@ -14,16 +14,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.nasa.model.response.gpt.GptResponse;
-import lombok.Data;
 
-@Data
 @Service
 public class GptService {
 
 	@Value("${gpt.key}")
 	private String key;
 	@Value("${gpt.chat.link}")
-	private String urlApi;
+	private String url;
 
 	public GptResponse commandGpt(String prompt) throws JsonProcessingException {
 		List<HashMap<String, String>> hmPrompt = this.hashMapCommand(prompt);
@@ -37,13 +35,13 @@ public class GptService {
 				.defaultHeader("Authorization", "Bearer " + this.key)
 				.build();
 		
-		ResponseEntity<GptResponse> postForEntity = rest.postForEntity(this.urlApi, json, GptResponse.class);
+		ResponseEntity<GptResponse> postForEntity = rest.postForEntity(this.url, json, GptResponse.class);
 		
 		return postForEntity.getBody();
 	}
 	
 	@SuppressWarnings("serial")
-	public HashMap<String, Object> hashMapData(List<HashMap<String, String>> hashMapCommand){
+	private HashMap<String, Object> hashMapData(List<HashMap<String, String>> hashMapCommand){
 		HashMap<String, Object> hm = new HashMap<>(){{
 			put("model", "gpt-3.5-turbo");
 			put("messages", hashMapCommand);
@@ -54,7 +52,7 @@ public class GptService {
 	}
 	
 	@SuppressWarnings("serial")
-	public List<HashMap<String, String>> hashMapCommand(String prompt){
+	private List<HashMap<String, String>> hashMapCommand(String prompt){
 		HashMap<String, String> hm = new HashMap<>(){{
 			put("role", "user");
 			put("content", prompt);

@@ -1,5 +1,6 @@
 package br.com.nasa.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,22 +27,34 @@ public class PlanetService {
 	@Autowired private PlanetRepository planetRep;
 	@Autowired private GptService gptService;
 	
+	public List<Planet> getAll() {
+		List<Planet> planetas = planetRep.findAll();
+		if(planetas.size() > 0) {
+			return planetas;
+		}
+		
+		return null;
+	}
+	
 	public PlanetDto createPlanet(PlanetForm form) throws JsonProcessingException {
+		UUID id = UUID.fromString(form.getId());
 		String naturePrompt = this.calcNature(form.getNatureza());
 		String surfacePrompt = this.calcSurface(form.getSuperficie());
 		double massaTerra = MASSA_TERRA * form.getMassa();
 		double densTerra = DENS_TERRA * form.getDensidade();
 		double raioTerra = RAIO_TERRA * form.getRaio();
 		
-		Planet planet = new Planet(form.getNomePlaneta(), 
+		Planet planet = new Planet(id, form.getNome(), 
 				form.getAgua(), raioTerra, massaTerra, densTerra, 
 				form.getPeriodoOrbita(), naturePrompt, surfacePrompt, 
 				form.getTemperatura());
 		
-		this.savePlanet(planet);
 		EarthCompDto comparatorDto = this.createCompEarth(planet);
-		GptResponse commandGpt = this.gptService.commandGpt(this.createPrompt(planet.getId()));
+		GptResponse commandGpt = this.gptService.commandGpt(this.createPrompt(planet));
+		String responseGpt = commandGpt.getChoices().get(0).getMessage().getContent();
+		planet.setDescGpt(responseGpt);
 		
+		this.savePlanet(planet);
 		return new PlanetDto(planet, commandGpt, comparatorDto);
 	}
 	
@@ -50,11 +63,11 @@ public class PlanetService {
 	}
 	
 	private String calcNature(double nature) {
-		if(nature >= 0 && nature <=0.25) {
+		if(nature >= 0 && nature <= 25) {
 			return "nature will be almost non-existent, few species of animals and plants";
-		}else if(nature >= 0.26 && nature <= 0.50) {
+		}else if(nature >= 26 && nature <= 50) {
 			return "nature will be abundant, but not as much as the number of species on earth";  
-		}else if(nature >= 0.51 && nature <= 0.75) {
+		}else if(nature >= 51 && nature <= 75) {
 			return "nature will be abundant, greater than the number of species that the earth"; 
 		}else {
 			return "nature will be very abundant, many times greater than that of the earth";
@@ -62,20 +75,18 @@ public class PlanetService {
 	}
 	
 	private String calcSurface(double Surface) {
-		if(Surface >= 0 && Surface <=0.25) {
+		if(Surface >= 0 && Surface <= 25) {
 			return "of plains";
-		}else if(Surface >= 0.26 && Surface <= 0.50) {
+		}else if(Surface >= 26 && Surface <= 50) {
 			return "mountains, but the vast majority is flat";  
-		}else if(Surface >= 0.51 && Surface <= 0.75) {
+		}else if(Surface >= 51 && Surface <= 75) {
 			return "mountains and plains, well balanced"; 
 		}else {
 			return "is just mountains, plains are almost non-existent";
 		}
 	}
 	
-	private String createPrompt(UUID id) {
-		Planet planet = this.planetRep.findById(id).get();
-		
+	private String createPrompt(Planet planet) {
 		String text = "Describe in a detailed form a habitable exoplanet named " + planet.getNome() + " where "
 		+ "the exoplanet is compound of (‘"+ planet.getAgua() +"’+%) water, the fauna and flora of this planet "
 		+ "have a "+ planet.getNatureza() +" diversity of life and the terrain of it is predominantly "

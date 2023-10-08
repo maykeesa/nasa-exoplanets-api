@@ -2,6 +2,7 @@ package br.com.nasa.model;
 
 import java.util.UUID;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,18 +25,20 @@ public class Planet {
 	private String natureza;
 	private String superficie;
 	private double temperatura;
-	private String responsePlanet;
+	@Column(columnDefinition = "TEXT")
+	private String descGpt;
 	
 	public Planet() {
 		
 	}
 	
-	public Planet(String nomePlaneta, double agua, double raio, double massa, 
+	public Planet(UUID id, String nomePlaneta, double agua, double raio, double massa, 
 			double densidade, int periodoOrbita, String natureza, 
 			String superficie, double temperatura) {
 		
+		this.id = id;
 		this.nome = nomePlaneta;
-		this.agua = (agua * 100);
+		this.agua = (agua * 10);
 		this.raio = raio;
 		this.massa = massa;
 		this.densidade = densidade;
