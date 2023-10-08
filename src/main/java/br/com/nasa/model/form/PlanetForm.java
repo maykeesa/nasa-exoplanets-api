@@ -1,7 +1,5 @@
 package br.com.nasa.model.form;
 
-import java.util.UUID;
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
@@ -9,7 +7,6 @@ import lombok.Getter;
 @Getter
 public class PlanetForm {
 
-	private UUID id;
 	private String nomePlaneta;
 	@Min(value = (long) 0.3) @Max(value = (long) 0.8)
 	private double agua;

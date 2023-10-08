@@ -30,11 +30,10 @@ public class Planet {
 		
 	}
 	
-	public Planet(UUID id, String nomePlaneta, double agua, double raio, double massa, 
+	public Planet(String nomePlaneta, double agua, double raio, double massa, 
 			double densidade, int periodoOrbita, String natureza, 
 			String superficie, double temperatura) {
 		
-		this.id = id;
 		this.nome = nomePlaneta;
 		this.agua = (agua * 100);
 		this.raio = raio;
