@@ -40,12 +40,22 @@ public class PlanetService {
 		UUID id = UUID.fromString(form.getId());
 		String naturePrompt = this.calcNature(form.getNatureza());
 		String surfacePrompt = this.calcSurface(form.getSuperficie());
+		
 		double massaTerra = MASSA_TERRA * form.getMassa();
+		String resultMassa = String.format("%.2f", massaTerra);
+		double massaTerraDouble = Double.valueOf(resultMassa);
+		
+		
 		double densTerra = DENS_TERRA * form.getDensidade();
+		String resultDens = String.format("%.2f", densTerra);
+		double massaDensDouble = Double.valueOf(resultDens);
+		
 		double raioTerra = RAIO_TERRA * form.getRaio();
+		String resultRaio = String.format("%.2f", raioTerra);
+		double massaRaioDouble = Double.valueOf(resultRaio);
 		
 		Planet planet = new Planet(id, form.getNome(), 
-				form.getAgua(), raioTerra, massaTerra, densTerra, 
+				form.getAgua(), massaRaioDouble, massaTerraDouble, massaDensDouble, 
 				form.getPeriodoOrbita(), naturePrompt, surfacePrompt, 
 				form.getTemperatura());
 		
