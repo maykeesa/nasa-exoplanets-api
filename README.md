@@ -1,7 +1,7 @@
 # Exoplanets - 🪐
-* O Exoplanets foi a nossa solução ([MoonMonkeys](https://www.spaceappschallenge.org/2023/find-a-team/moonmonkeys/)) para o problema do Nasa Space Apps 2023, [Habitable Exoplanets: Creating Worlds Beyond Our Own](https://www.spaceappschallenge.org/2023/challenges/habitable-exoplanets-creating-worlds-beyond-our-own/), onde chegamos a ser "Nomeados Globais".
+- O Exoplanets foi a nossa solução ([MoonMonkeys](https://www.spaceappschallenge.org/2023/find-a-team/moonmonkeys/)) para o problema do Nasa Space Apps 2023, [Habitable Exoplanets: Creating Worlds Beyond Our Own](https://www.spaceappschallenge.org/2023/challenges/habitable-exoplanets-creating-worlds-beyond-our-own/), onde chegamos a ser "Nomeados Globais".
 
-*obs: Esse repositório é referente apenas ao back-end da nossa solução.*
+*obs: Esse repositório é referente apenas ao back-end da nossa solução, [repositório front-end](https://github.com/George-b1t/exoplanets).*
 
 <br>
 
